@@ -1,22 +1,23 @@
 export default class Ship {
-    constructor(properlength, timesHit, sunk, y, x, orientation) {
-        this.properlength = properlength;
-        this.timesHit = timesHit;
-        this.sunk = sunk;
-        this.y = y;
-        this.x = x;
-        this.orientation = orientation;
-    }
+  constructor(properlength, y, x, orientation) {
+    this.properlength = properlength;
+    this.timesHit = 0;
+    this.sunk = false;
+    this.y = y;
+    this.x = x;
+    this.orientation = orientation;
+    this.coordinates = [];
+  }
 
-    hit() {
-        return this.timesHit++;
-    }
+  hit() {
+    return this.timesHit++;
+  }
 
-    isSunk() {
-        if (this.timesHit >= this.properlength) {
-            return sunk = true;
-        } else {
-            return sunk = false;
-        }
+  isSunk() {
+    if (this.timesHit >= this.properlength) {
+      return (sunk = true);
+    } else {
+      return (sunk = false);
     }
+  }
 }
