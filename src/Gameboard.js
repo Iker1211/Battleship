@@ -62,7 +62,7 @@ export default class Gameboard {
       }
     }
 
-    console.log("estas son las coordenadas", newShip.coordinates);
+    // console.log("estas son las coordenadas", newShip.coordinates);
 
     for (let i = 0; i < this.ships.length; i++) {
       if (typeof this.ships[i] === "number") {
@@ -73,7 +73,7 @@ export default class Gameboard {
       }
     }
 
-    console.log("this is", this.ships);
+    // console.log("this is", this.ships);
 
     return true;
   }
@@ -97,18 +97,17 @@ export default class Gameboard {
       if (atacked) {
         console.log("coño eso dolió");
         ship.hit();
-        console.log("veces que ha sido golpeado", ship.timesHit);
+        ship.isSunk();
+        // console.log("veces que ha sido golpeado", ship.timesHit);
       } else if (!atacked) {
         this.missedAttacks.push(hitpoint);
-        console.log(this.missedAttacks);
+        // console.log(this.missedAttacks);
       }
     });
   }
 
   checkLoss() {
-    let positionedShips = this.ships.filter((ship) => {
-      typeof ship === "object";
-    });
+    let positionedShips = this.ships.filter((ship) => typeof ship !== "number");
 
     let sunkShips = [];
 
@@ -125,6 +124,10 @@ export default class Gameboard {
     if (positionedShips.length === sunkShips.length) {
       this.lostGame = true;
       console.log("You lost!");
+      return
+    } else {
+      console.log("Aún no has perdido");
+      return 
     }
   }
 }
@@ -132,7 +135,13 @@ export default class Gameboard {
 let board1 = new Gameboard();
 
 board1.placeShip(board1.board, 1, 1, 1, "horizontal");
+board1.placeShip(board1.board, 1, 2, 2, "horizontal");
+board1.placeShip(board1.board, 1, 3, 3, "horizontal");
+board1.placeShip(board1.board, 1, 5, 5, "horizontal");
 
 board1.receiveAttack(board1.board, 1, 1);
+board1.receiveAttack(board1.board, 2, 2);
+board1.receiveAttack(board1.board, 3, 3);
+board1.receiveAttack(board1.board, 5, 5);
 
 board1.checkLoss();
