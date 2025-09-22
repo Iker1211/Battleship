@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "repository": {
-    "type": "git",
+    "type": "module",
     "url": "git+https://github.com/Iker1211/Battleship.git"
   },
   "author": "",

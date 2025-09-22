@@ -10,7 +10,7 @@ test("gameboard exists", () => {
   const gameboard1 = new Gameboard();
   expect(gameboard1).toBeDefined();
   expect(gameboard1.placeShip()).toBeFalsy(); //Faltan los argumentos
-  
+
   expect(
     gameboard1.placeShip(gameboard1.board, 1, 1, 1, "horizontal"),
   ).toBeTruthy();
@@ -21,6 +21,6 @@ test("gameboard exists", () => {
     sunk: false,
     y: 1,
     x: 1,
-    orientation: 'horizontal'
+    orientation: "horizontal",
   });
 });

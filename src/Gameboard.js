@@ -6,6 +6,8 @@ export default class Gameboard {
       .fill()
       .map(() => Array(10).fill("empty"));
     this.ships = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    this.missedAttacks = [];
+    this.lostGame = false;
   }
 
   logBoard() {
@@ -13,7 +15,6 @@ export default class Gameboard {
   }
 
   placeShip(board, length, y, x, orientation) {
-
     if (x < 0 || x > 9 || y < 0 || y > 9) {
       return false;
     }
@@ -63,72 +64,75 @@ export default class Gameboard {
 
     console.log("estas son las coordenadas", newShip.coordinates);
 
-    for ( let i = 0; i < this.ships.length; i++ ) {
-      if (typeof this.ships[i] === "number" ) {
-          this.ships[i] = newShip;
-          break
+    for (let i = 0; i < this.ships.length; i++) {
+      if (typeof this.ships[i] === "number") {
+        this.ships[i] = newShip;
+        break;
       } else {
-        console.log("este lugar ya está ocupado")
+        console.log("este lugar ya está ocupado");
       }
     }
 
-    console.log("this is" ,this.ships);
+    console.log("this is", this.ships);
 
     return true;
   }
 
   receiveAttack(board, x, y) {
-
-    let hitpoint = [x, y]
+    let hitpoint = [x, y];
 
     if (x < 0 || x > 9 || y < 0 || y > 9) {
       return false;
     }
 
     this.ships.forEach((ship) => {
-
       if (typeof ship === "number") return;
 
       let shipArea = ship.coordinates;
 
-      let atacked = shipArea.find((item) => item[0] === hitpoint[0] && item[1] === hitpoint[1])
+      let atacked = shipArea.find(
+        (item) => item[0] === hitpoint[0] && item[1] === hitpoint[1],
+      );
 
       if (atacked) {
         console.log("coño eso dolió");
         ship.hit();
         console.log("veces que ha sido golpeado", ship.timesHit);
+      } else if (!atacked) {
+        this.missedAttacks.push(hitpoint);
+        console.log(this.missedAttacks);
       }
-      
-    })
+    });
+  }
 
-    // for (let i = 0; i < this.ships.length; i++) {
+  checkLoss() {
+    let positionedShips = this.ships.filter((ship) => {
+      typeof ship === "object";
+    });
 
-    //    console.log("ahora", this.ships[i].coordinates);
+    let sunkShips = [];
 
-    //    let actualShip = this.ships[i].coordinates;
+    this.ships.forEach((ship) => {
+      if (typeof ship === "number") return;
 
-    //    for (let j = 0; j < 9; j++) {
-    //     console.log("punto del barco", actualShip[j])
-    //    }
-    // }
+      let sunk = ship.sunk;
 
-    // if (board[x][y] === "ship") {
+      if (sunk) {
+        sunkShips.push(sunk);
+      }
+    });
 
-    //   console.log("coño eso dolió");
-    // } 
-
-          // for ( let j of this.ships[i].this.coordinates) {
-      //   if (this.ships[i].coordinates[j] === hitpoint ) {
-      //     console.log("coño Dios");
-      //     break
-      //   }
-      // }
+    if (positionedShips.length === sunkShips.length) {
+      this.lostGame = true;
+      console.log("You lost!");
+    }
   }
 }
 
 let board1 = new Gameboard();
 
-board1.placeShip(board1.board, 4, 1, 1, "horizontal");
+board1.placeShip(board1.board, 1, 1, 1, "horizontal");
 
-// board1.logBoard();
 board1.receiveAttack(board1.board, 1, 1);
+
+board1.checkLoss();
