@@ -1,23 +1,33 @@
 import "./styles.css";
-import Game from "./Game.js"
+import Game from "./Game.js";
+import DOMhandler from "./DOMhandler.js";
+import displayGameboards from "./DOMhandler.js";
 
 let firstGame = new Game("human", "computer");
 
-firstGame.player1.gameboard.placeShip(firstGame.player1.gameboard.board, 1, 1, 1, "horizontal");
-firstGame.player2.gameboard.placeShip(firstGame.player2.gameboard.board, 1, 1, 1, "horizontal");
+firstGame.player1.gameboard.placeShip(
+  firstGame.player1.gameboard.board,
+  1,
+  1,
+  1,
+  "horizontal",
+);
 
-const app = document.getElementById("app");
+firstGame.player2.gameboard.placeShip(
+  firstGame.player2.gameboard.board,
+  1,
+  1,
+  1,
+  "horizontal",
+);
 
-function displayGameboards() {
-    let board1 = firstGame.player1.gameboard.board;
+displayGameboards(
+  firstGame.player1.gameboard.board,
+  firstGame.player2.gameboard.board,
+);
 
-    for (let i = 0; i < board1.length; i++) {
-        board1[i].forEach(element => {
-            let cell = document.createElement("div");
-            cell.innerHTML = "cell";
-            app.appendChild(cell);
-        });
-    }
-} 
+// displayGameboards();
 
-displayGameboards();
+// Por cada jugador un grid
+// La lógica del juego debería estar separada del control del DOM,
+// en módulos diferentes?

@@ -1,6 +1,6 @@
 import Ship from "./Ship.js";
 import Gameboard from "./Gameboard.js";
-import Player from "./Player.js"
+import Player from "./Player.js";
 
 test("ship exists", () => {
   let ship1 = new Ship(1, 0, false, 1, 1, "horizontal");
@@ -25,12 +25,10 @@ test("gameboard exists", () => {
     orientation: "horizontal",
     coordinates: [[1, 1]],
   });
-
-  
 });
 
 test("Players exists", () => {
   let player1 = new Player();
   expect(player1).toBeDefined();
   expect(player1.gameboard).toBeTruthy();
-})
+});

@@ -124,17 +124,17 @@ export default class Gameboard {
     if (positionedShips.length === sunkShips.length) {
       this.lostGame = true;
       console.log("You lost!");
-      return
+      return;
     } else {
       console.log("Aún no has perdido");
-      return 
+      return;
     }
   }
 }
 
 let board1 = new Gameboard();
 
-// board1.placeShip(board1.board, 1, 1, 1, "horizontal");
+board1.placeShip(board1.board, 1, 1, 1, "horizontal");
 // board1.placeShip(board1.board, 1, 2, 2, "horizontal");
 // board1.placeShip(board1.board, 1, 3, 3, "horizontal");
 // board1.placeShip(board1.board, 1, 5, 5, "horizontal");

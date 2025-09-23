@@ -1,0 +1,49 @@
+#app {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.board {
+  border: 2px solid black;
+  background-color: aqua;
+  display: grid;
+  grid: repeat(10, 1fr) / repeat(10, 1fr);
+}
+
+/* Tablet (min-width: 768px) */
+@media (max-width: 768px) {
+  .board {
+    width: 350px;
+    height: 350px;
+  }
+
+  #app {
+    flex-direction: column;
+  }
+}
+
+/* Escritorio pequeño (min-width: 1024px) */
+@media (min-width: 1024px) {
+  .board {
+    width: 500px;
+    height: 500px;
+  }
+
+  #app {
+    flex-direction: row;
+  }
+}
+
+/* Escritorio grande (min-width: 1440px) */
+@media (min-width: 1440px) {
+  .board {
+    width: 500px;
+    height: 500px;
+  }
+
+  #app {
+    flex-direction: row;
+  }
+}
