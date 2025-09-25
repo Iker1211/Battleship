@@ -15,66 +15,46 @@ export default class Gameboard {
   }
 
   placeShip(board, length, y, x, orientation) {
-    if (x < 0 || x > 9 || y < 0 || y > 9) {
+    if (x < 1 || x > 10 || y < 1 || y > 10) {
       return false;
     }
 
     let newShip = new Ship(length, y, x, orientation);
 
     if (typeof newShip.x == !"number" || typeof newShip.y == !"number") {
-      newShip = false;
-      return;
+      return false;
     }
 
+        // Verifica que el barco no se salga del tablero
     if (orientation === "horizontal") {
-      if (y + length - 1 > 9) {
-        return false;
-      }
-
+      if (x + length - 1 > 10) return false;
       for (let i = 0; i < length; i++) {
-        if (board[x][y + i] !== "empty") {
-          return false;
-        }
+        if (board[y - 1][x - 1 + i] !== "empty") return false;
       }
-    } else if (orientation === "veritcal") {
-      if (x + length - 1 > 9) {
-        return false;
-      }
-
+    } else if (orientation === "vertical") {
+      if (y + length - 1 > 10) return false;
       for (let i = 0; i < length; i++) {
-        if (board[x + i][y] !== "empty") {
-          return false;
-        }
+        if (board[y - 1 + i][x - 1] !== "empty") return false;
       }
     } else {
       return false;
     }
 
-    if (orientation == "horizontal") {
+    // Marca las posiciones del barco en el tablero y guarda las coordenadas
+    newShip.coordinates = [];
+    if (orientation === "horizontal") {
       for (let i = 0; i < length; i++) {
-        newShip.coordinates.push([x, y + i]);
-        board[x][y + i] = "ship";
+        board[y - 1][x - 1 + i] = "ship";
+        newShip.coordinates.push([x + i, y]);
       }
     } else {
       for (let i = 0; i < length; i++) {
-        newShip.coordinates.push([x + i, y]);
-        board[x + i][y] = "ship";
+        board[y - 1 + i][x - 1] = "ship";
+        newShip.coordinates.push([x, y + i]);
       }
     }
 
-    console.log("estas son las coordenadas", newShip.coordinates);
-
-    for (let i = 0; i < this.ships.length; i++) {
-      if (typeof this.ships[i] === "number") {
-        this.ships[i] = newShip;
-        break;
-      } else {
-        console.log("este lugar ya está ocupado");
-      }
-    }
-
-    // console.log("this is", this.ships);
-
+    this.ships.push(newShip);
     return true;
   }
 

@@ -9,15 +9,23 @@ firstGame.player1.gameboard.placeShip(
   1,
   1,
   1,
-  "horizontal",
+  "vertical",
 );
 
 firstGame.player1.gameboard.placeShip(
   firstGame.player1.gameboard.board,
   4,
+  3,
   5,
-  5,
-  "horizontal",
+  "vertical",
+);
+
+firstGame.player1.gameboard.placeShip(
+  firstGame.player1.gameboard.board,
+  2,
+  3,
+  8,
+  "vertical",
 );
 
 firstGame.player2.gameboard.placeShip(
@@ -25,7 +33,7 @@ firstGame.player2.gameboard.placeShip(
   1,
   1,
   1,
-  "horizontal",
+  "vertical",
 );
 
 displayGameboards(

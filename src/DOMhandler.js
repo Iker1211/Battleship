@@ -5,9 +5,6 @@ export function displayGameboards(board1, board2) {
   const objectBoards = [board1, board2];
   const boards = [];
 
-  let board1rowsCounter = 11;
-  let board2rowsCounter = 11;
-
   objectBoards.forEach(() => {
     let board = document.createElement("div");
     board.classList.add("board");
@@ -16,39 +13,64 @@ export function displayGameboards(board1, board2) {
     boards.push(board);
   });
 
-  for (let i = 0; i < board1.length; i++) {
+  for (let i = 0; i < 10; i++) {
 
-        board1rowsCounter--;
-        let columnsCounter = 64; // ASCII code 
+    let rowNum = 10 - i;
 
-    board1[i].forEach((element) => {
-
-        columnsCounter++;
-
+    for (let j = 0; j < 10; j++) {
+      let colChar = String.fromCharCode(65 + j); // 65 is 'A'
       let cell = document.createElement("div");
       cell.innerHTML = "cell";
-      cell.setAttribute("id", "friend" + String.fromCharCode(columnsCounter) + board1rowsCounter);
+      cell.setAttribute("class", "amigo");
+      cell.setAttribute("id", `amigo-${colChar}${rowNum}`);
       boards[0].appendChild(cell);
-    });
+    }
   }
 
-  for (let i = 0; i < board2.length; i++) {
+  for (let i = 0; i < 10; i++) {
 
-    board2rowsCounter--;
-    let columnsCounter = 64; // ASCII code 
-
-    board2[i].forEach((element) => {
-
-        columnsCounter++;
-
+        let rowNum = 10 - i;
+    for (let j = 0; j < 10; j++) {
+      let colChar = String.fromCharCode(65 + j);
       let cell = document.createElement("div");
       cell.innerHTML = "cell";
-      cell.setAttribute("id", "enemy" + String.fromCharCode(columnsCounter) + board2rowsCounter);
+      cell.setAttribute("class", "enemigo");
+      cell.setAttribute("id", `enemigo-${colChar}${rowNum}`);
       boards[1].appendChild(cell);
-    });
+    }
   }
 }
 
 export function displayShips(board1, board2) {
-    console.log("the boards", board1, board2);
+
+  const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+
+    board1.forEach((ship) => {
+    if (!ship.coordinates) return; // Evita errores si no hay coordenadas
+
+    ship.coordinates.forEach(([col, row]) => {
+      // col: número de columna (1-10), row: número de fila (1-10)
+      const cellId = `amigo-${alphabet[col - 1]}${row}`;
+      const cell = document.getElementById(cellId);
+      if (cell) {
+        cell.classList.add("ship"); // Marca la celda con una clase
+        cell.innerText = "🚢"; // Opcional: agrega un icono o texto
+      }
+    });
+  });
+
+  // Repite para board2 si quieres mostrar los barcos del enemigo
+  board2.forEach((ship) => {
+    if (!ship.coordinates) return;
+    ship.coordinates.forEach(([col, row]) => {
+      const cellId = `enemigo-${alphabet[col - 1]}${row}`;
+      const cell = document.getElementById(cellId);
+      if (cell) {
+        cell.classList.add("enemy-ship");
+        cell.innerText = "🚢";
+      }
+    });
+  });
 }
+
+// ahora debo asegurarme de que los ships no colisionen
