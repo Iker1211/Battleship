@@ -1,5 +1,4 @@
 const app = document.getElementById("app");
-app.style.backgroundColor = "red";
 
 export function displayGameboards(board1, board2) {
   const objectBoards = [board1, board2];
@@ -20,7 +19,7 @@ export function displayGameboards(board1, board2) {
     for (let j = 0; j < 10; j++) {
       let colChar = String.fromCharCode(65 + j); // 65 is 'A'
       let cell = document.createElement("div");
-      cell.innerHTML = "cell";
+      // cell.innerHTML = "🌊";
       cell.setAttribute("class", "amigo");
       cell.setAttribute("id", `amigo-${colChar}${rowNum}`);
       boards[0].appendChild(cell);
@@ -33,7 +32,7 @@ export function displayGameboards(board1, board2) {
     for (let j = 0; j < 10; j++) {
       let colChar = String.fromCharCode(65 + j);
       let cell = document.createElement("div");
-      cell.innerHTML = "cell";
+      // cell.innerHTML = "🌊";
       cell.setAttribute("class", "enemigo");
       cell.setAttribute("id", `enemigo-${colChar}${rowNum}`);
       boards[1].appendChild(cell);
@@ -53,8 +52,11 @@ export function displayShips(board1, board2) {
       const cellId = `amigo-${alphabet[col - 1]}${row}`;
       const cell = document.getElementById(cellId);
       if (cell) {
-        cell.classList.add("ship"); // Marca la celda con una clase
-        cell.innerText = "🚢"; // Opcional: agrega un icono o texto
+        cell.classList.add("ship");
+        
+        const ship = "<img src='src/assets/ships/patrol_boat.svg' alt='ship' />";
+            // Marca la celda con una clase
+        cell.innerHTML = ship; // Opcional: agrega un icono o texto
       }
     });
   });
@@ -67,7 +69,7 @@ export function displayShips(board1, board2) {
       const cell = document.getElementById(cellId);
       if (cell) {
         cell.classList.add("enemy-ship");
-        cell.innerText = "🚢";
+        // cell.innerText = "🚢"; // You cant see the enemies ships
       }
     });
   });

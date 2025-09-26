@@ -1,3 +1,4 @@
+import "./reset.css";
 import "./styles.css";
 import Game from "./Game.js";
 import { displayGameboards, displayShips } from "./DOMhandler.js";
