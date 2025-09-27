@@ -80,4 +80,3 @@ export function highlightCollision(ship, isAmigo = true) {
   });
 }
 
-// ahora debo asegurarme de que los ships no colisionen

@@ -73,6 +73,10 @@ export default class Gameboard {
     return true;
   }
 
+  logShips() {
+    console.log(this.ships);
+  }
+
   receiveAttack(board, x, y) {
     let hitpoint = [x, y];
 
@@ -128,14 +132,9 @@ export default class Gameboard {
 
 let board1 = new Gameboard();
 
+board1.placeShip(board1.board, 1, 2, 2, "horizontal");
 board1.placeShip(board1.board, 1, 1, 1, "horizontal");
-// board1.placeShip(board1.board, 1, 2, 2, "horizontal");
-// board1.placeShip(board1.board, 1, 3, 3, "horizontal");
-// board1.placeShip(board1.board, 1, 5, 5, "horizontal");
+board1.placeShip(board1.board, 1, 1, 1, "horizontal");
+board1.placeShip(board1.board, 1, 1, 1, "horizontal");
 
-// board1.receiveAttack(board1.board, 1, 1);
-// board1.receiveAttack(board1.board, 2, 2);
-// board1.receiveAttack(board1.board, 3, 3);
-// board1.receiveAttack(board1.board, 5, 5);
-
-// board1.checkLoss();
+board1.logShips();
