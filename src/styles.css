@@ -4,16 +4,15 @@
 }
 
 @font-face {
-    font-family: 'trade_windsregular';
-    src: url('./assets/font/tradewinds-regular-webfont.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-
+  font-family: "trade_windsregular";
+  src: url("./assets/font/tradewinds-regular-webfont.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
   background-color: var(--black);
-  font-family: 'trade_windsregular', cursive;
+  font-family: "trade_windsregular", cursive;
 }
 
 h1 {
@@ -28,16 +27,21 @@ h1 {
 }
 
 .board {
-  /* border: 2px solid black; */
   display: grid;
   grid: repeat(10, 1fr) / repeat(10, 1fr);
-  background-image: url('./assets/cristian-palmer-XexawgzYOBc-unsplash.jpg');
+  background-image: url("./assets/cristian-palmer-XexawgzYOBc-unsplash.jpg");
 
-  & .amigo, .enemigo{
+  & .amigo,
+  .enemigo {
     border: 1px solid yellow;
     display: flex;
     /* justify-content: center;
     align-items: center; */
+  }
+
+  .collision-cell {
+    background-color: red !important;
+    opacity: 0.7;
   }
 
   .ship-container {

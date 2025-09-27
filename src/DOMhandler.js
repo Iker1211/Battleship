@@ -13,7 +13,6 @@ export function displayGameboards(board1, board2) {
   });
 
   for (let i = 0; i < 10; i++) {
-
     let rowNum = 10 - i;
 
     for (let j = 0; j < 10; j++) {
@@ -27,12 +26,10 @@ export function displayGameboards(board1, board2) {
   }
 
   for (let i = 0; i < 10; i++) {
-
-        let rowNum = 10 - i;
+    let rowNum = 10 - i;
     for (let j = 0; j < 10; j++) {
       let colChar = String.fromCharCode(65 + j);
       let cell = document.createElement("div");
-      // cell.innerHTML = "🌊";
       cell.setAttribute("class", "enemigo");
       cell.setAttribute("id", `enemigo-${colChar}${rowNum}`);
       boards[1].appendChild(cell);
@@ -41,10 +38,9 @@ export function displayGameboards(board1, board2) {
 }
 
 export function displayShips(board1, board2) {
+  const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
-  const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-
-    board1.forEach((ship) => {
+  board1.forEach((ship) => {
     if (!ship.coordinates) return; // Evita errores si no hay coordenadas
 
     ship.coordinates.forEach(([col, row]) => {
@@ -52,16 +48,10 @@ export function displayShips(board1, board2) {
       const cellId = `amigo-${alphabet[col - 1]}${row}`;
       const cell = document.getElementById(cellId);
       if (cell) {
-        
         let shipCointainer = document.createElement("div");
         shipCointainer.classList.add("ship-container");
 
         cell.appendChild(shipCointainer);
-
-
-        // const ship = "<img src='src/assets/ships/destroyer.svg' alt='ship' />";
-            
-        // cell.innerHTML = ship; // Opcional: agrega un icono o texto
       }
     });
   });
@@ -77,6 +67,16 @@ export function displayShips(board1, board2) {
         // cell.innerText = "🚢"; // You cant see the enemies ships
       }
     });
+  });
+}
+
+export function highlightCollision(ship, isAmigo = true) {
+  const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  ship.coordinates.forEach(([col, row]) => {
+    const prefix = isAmigo ? "amigo" : "enemigo";
+    const cellId = `${prefix}-${alphabet[col - 1]}${row}`;
+    const cell = document.getElementById(cellId);
+    if (cell) cell.classList.add("collision-cell");
   });
 }
 

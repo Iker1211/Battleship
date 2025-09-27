@@ -10,8 +10,21 @@ export default class Gameboard {
     this.lostGame = false;
   }
 
-  logBoard() {
-    console.log(this.board);
+  checkCollision(newShip) {
+    // Recorre todos los barcos ya colocados
+    for (let ship of this.ships) {
+      if (!ship.coordinates) continue;
+      for (let [col, row] of ship.coordinates) {
+        // ¿Alguna coordenada del nuevo barco coincide?
+        if (newShip.coordinates.some(([c, r]) => c === col && r === row)) {
+          console.log("aya", col, row);
+          return true; // Hay colisión
+        } else {
+          console.log("no aya", col, row);
+        }
+      }
+    }
+    return false; // No hay colisión
   }
 
   placeShip(board, length, y, x, orientation) {
@@ -25,32 +38,34 @@ export default class Gameboard {
       return false;
     }
 
-        // Verifica que el barco no se salga del tablero
+    // Marca las posiciones del barco en el tablero y guarda las coordenadas
+    newShip.coordinates = [];
     if (orientation === "horizontal") {
       if (x + length - 1 > 10) return false;
       for (let i = 0; i < length; i++) {
-        if (board[y - 1][x - 1 + i] !== "empty") return false;
+        newShip.coordinates.push([x + i, y]);
       }
     } else if (orientation === "vertical") {
       if (y + length - 1 > 10) return false;
       for (let i = 0; i < length; i++) {
-        if (board[y - 1 + i][x - 1] !== "empty") return false;
+        newShip.coordinates.push([x, y + i]);
       }
     } else {
       return false;
     }
 
-    // Marca las posiciones del barco en el tablero y guarda las coordenadas
-    newShip.coordinates = [];
+    if (this.checkCollision(newShip)) {
+      newShip.hasCollision = true;
+      return newShip;
+    }
+
     if (orientation === "horizontal") {
       for (let i = 0; i < length; i++) {
         board[y - 1][x - 1 + i] = "ship";
-        newShip.coordinates.push([x + i, y]);
       }
     } else {
       for (let i = 0; i < length; i++) {
         board[y - 1 + i][x - 1] = "ship";
-        newShip.coordinates.push([x, y + i]);
       }
     }
 
@@ -78,7 +93,6 @@ export default class Gameboard {
         console.log("coño eso dolió");
         ship.hit();
         ship.isSunk();
-        // console.log("veces que ha sido golpeado", ship.timesHit);
       } else if (!atacked) {
         this.missedAttacks.push(hitpoint);
         // console.log(this.missedAttacks);
@@ -125,5 +139,3 @@ board1.placeShip(board1.board, 1, 1, 1, "horizontal");
 // board1.receiveAttack(board1.board, 5, 5);
 
 // board1.checkLoss();
-
-board1.logBoard();
