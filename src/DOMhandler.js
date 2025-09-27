@@ -52,11 +52,16 @@ export function displayShips(board1, board2) {
       const cellId = `amigo-${alphabet[col - 1]}${row}`;
       const cell = document.getElementById(cellId);
       if (cell) {
-        cell.classList.add("ship");
         
-        const ship = "<img src='src/assets/ships/patrol_boat.svg' alt='ship' />";
-            // Marca la celda con una clase
-        cell.innerHTML = ship; // Opcional: agrega un icono o texto
+        let shipCointainer = document.createElement("div");
+        shipCointainer.classList.add("ship-container");
+
+        cell.appendChild(shipCointainer);
+
+
+        // const ship = "<img src='src/assets/ships/destroyer.svg' alt='ship' />";
+            
+        // cell.innerHTML = ship; // Opcional: agrega un icono o texto
       }
     });
   });
