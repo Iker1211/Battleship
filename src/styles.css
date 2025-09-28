@@ -27,6 +27,7 @@ h1 {
 }
 
 .board {
+  cursor: url(./assets/icons8-crosshair-32.svg), auto;
   display: grid;
   grid: repeat(10, 1fr) / repeat(10, 1fr);
   background-image: url("./assets/cristian-palmer-XexawgzYOBc-unsplash.jpg");

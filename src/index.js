@@ -5,6 +5,7 @@ import {
   displayGameboards,
   displayShips,
   highlightCollision,
+  listenBoardClicks
 } from "./DOMhandler.js";
 
 let firstGame = new Game("human", "computer");
@@ -18,14 +19,6 @@ firstGame.player1.gameboard.placeShip(
 );
 
 firstGame.player1.gameboard.placeShip(
-  firstGame.player1.gameboard.board,
-  2,
-  4,
-  4,
-  "horizontal",
-);
-
-const result = firstGame.player1.gameboard.placeShip(
   firstGame.player1.gameboard.board,
   2,
   4,
@@ -54,15 +47,17 @@ displayGameboards(
   firstGame.player2.gameboard.board,
 );
 
+listenBoardClicks();
+
 displayShips(
   firstGame.player1.gameboard.ships,
   firstGame.player2.gameboard.ships,
 );
 
-if (result && result.hasCollision) {
-  highlightCollision(result);
-  console.log("hola");
-}
+// if (result && result.hasCollision) {
+//   highlightCollision(result);
+//   console.log("hola");
+// }
 
 // Por cada jugador un grid
 // La lógica del juego debería estar separada del control del DOM,

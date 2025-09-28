@@ -1,4 +1,18 @@
+import audioShot from "./assets/audios/gunshot.mp3";
+
 const app = document.getElementById("app");
+
+let shot = new Audio(audioShot);
+
+export function listenBoardClicks() {
+  const boards = document.getElementsByClassName("board");
+  Array.from(boards).forEach((board) => {
+    board.addEventListener("click", (event) => {
+      console.log("Board clicked!", event.target);
+      shot.play();
+    })
+  })
+}
 
 export function displayGameboards(board1, board2) {
   const objectBoards = [board1, board2];
@@ -80,3 +94,4 @@ export function highlightCollision(ship, isAmigo = true) {
   });
 }
 
+// Refactorizar la logica de colisiones 
