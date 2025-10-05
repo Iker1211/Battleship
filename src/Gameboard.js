@@ -80,7 +80,7 @@ export default class Gameboard {
   receiveAttack(board, x, y) {
     let hitpoint = [x, y];
 
-    if (x < 0 || x > 9 || y < 0 || y > 9) {
+    if (x < 1 || x > 10 || y < 1 || y > 10) {
       return false;
     }
 
@@ -99,6 +99,7 @@ export default class Gameboard {
         ship.isSunk();
       } else if (!atacked) {
         this.missedAttacks.push(hitpoint);
+        console.log("oasito");
         // console.log(this.missedAttacks);
       }
     });

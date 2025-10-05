@@ -1,17 +1,31 @@
-import audioShot from "./assets/audios/gunshot.mp3";
-
 const app = document.getElementById("app");
 
-let shot = new Audio(audioShot);
-
-export function listenBoardClicks() {
+export function displayShots() {
   const boards = document.getElementsByClassName("board");
   Array.from(boards).forEach((board) => {
     board.addEventListener("click", (event) => {
       console.log("Board clicked!", event.target);
       shot.play();
-    })
-  })
+    });
+  });
+
+  drawShots();
+
+  //Tambien es necesario un listener de la funcion receiveAttack del gameboard
+}
+
+export function drawShots() {
+  const boards = document.getElementsByClassName("board");
+  Array.from(boards).forEach((board) => {
+    board.addEventListener("click", (event) => {
+      console.log("Board clicked!", event.target);
+      let something = document.createElement("div");
+      something.classList.add("shot");
+      event.target.appendChild(something);
+    });
+  });
+
+  //Tambien es necesario un listener de la funcion receiveAttack del gameboard
 }
 
 export function displayGameboards(board1, board2) {
@@ -94,4 +108,4 @@ export function highlightCollision(ship, isAmigo = true) {
   });
 }
 
-// Refactorizar la logica de colisiones 
+// Refactorizar la logica de colisiones

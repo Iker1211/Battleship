@@ -15,6 +15,7 @@ export default class Ship {
 
   isSunk() {
     if (this.timesHit >= this.properlength) {
+      console.log("tu tas embarcao");
       return (this.sunk = true);
     } else {
       return (this.sunk = false);

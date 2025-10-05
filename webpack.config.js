@@ -1,6 +1,7 @@
 // webpack.config.js
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -17,6 +18,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/template.html",
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: "public/assets", to: "assets" }],
     }),
   ],
   module: {
@@ -41,8 +45,8 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: '[name].[ext]',
-              outputPath: 'assets/audio/'
+              name: "[name].[ext]",
+              outputPath: "assets/audio/",
             },
           },
         ],
