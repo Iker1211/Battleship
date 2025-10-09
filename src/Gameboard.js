@@ -7,6 +7,7 @@ export default class Gameboard {
       .map(() => Array(10).fill("empty"));
     this.ships = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     this.missedAttacks = [];
+    this.shots = [];
     this.lostGame = false;
   }
 
@@ -83,6 +84,8 @@ export default class Gameboard {
     if (x < 1 || x > 10 || y < 1 || y > 10) {
       return false;
     }
+
+    this.shots.push({col: x, row: y});
 
     this.ships.forEach((ship) => {
       if (typeof ship === "number") return;

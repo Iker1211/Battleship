@@ -14,15 +14,30 @@ export function displayShots() {
   //Tambien es necesario un listener de la funcion receiveAttack del gameboard
 }
 
-export function drawShots() {
+export function drawShots(gameboard = null, prefix = "enemigo") {
+
+  if (!gameboard || !gameboard.shots) return;
+  const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+
   const boards = document.getElementsByClassName("board");
-  Array.from(boards).forEach((board) => {
-    board.addEventListener("click", (event) => {
-      console.log("Board clicked!", event.target);
-      let something = document.createElement("div");
-      something.classList.add("shot");
-      event.target.appendChild(something);
-    });
+
+  // Array.from(boards).forEach((board) => {
+  //   board.addEventListener("click", (event) => {
+  //     console.log("Board clicked!", event.target);
+  //     let something = document.createElement("div");
+  //     something.classList.add("shot");
+  //     event.target.appendChild(something);
+  //   });
+  // });
+
+  gameboard.shots.forEach(({ col, row }) => {
+    const cellId = `${prefix}-${alphabet[col - 1]}${row}`;
+    const cell = document.getElementById(cellId);
+    if (cell) {
+      let shotDiv = document.createElement("div");
+      shotDiv.classList.add("shot");
+      cell.appendChild(shotDiv);
+    }
   });
 
   //Tambien es necesario un listener de la funcion receiveAttack del gameboard
@@ -31,6 +46,8 @@ export function drawShots() {
 export function displayGameboards(board1, board2) {
   const objectBoards = [board1, board2];
   const boards = [];
+
+  app.innerHTML = ""; // Limpiar el contenido previo
 
   objectBoards.forEach(() => {
     let board = document.createElement("div");

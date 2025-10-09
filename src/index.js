@@ -23,6 +23,21 @@ function onEnemyCellClick(x, y) {
   );
   console.log("party");
   audioShot.play();
+
+    // Re-render boards, ships, and shots after attack
+  displayGameboards(
+    firstGame.player1.gameboard.board,
+    firstGame.player2.gameboard.board,
+  );
+  displayShips(
+    firstGame.player1.gameboard.ships,
+    firstGame.player2.gameboard.ships,
+  );
+
+  drawShots(firstGame.player2.gameboard, "enemigo");
+
+  // Re-attach listeners after re-render
+  attachEnemyCellListeners();
 }
 
 firstGame.player1.gameboard.placeShip(
@@ -71,7 +86,9 @@ firstGame.player1.gameboard.receiveAttack(firstGame.player1.gameboard, 1, 1);
 firstGame.player1.gameboard.receiveAttack(firstGame.player1.gameboard, 4, 4);
 firstGame.player1.gameboard.receiveAttack(firstGame.player1.gameboard, 5, 4);
 
-drawShots();
+drawShots(firstGame.player2.gameboard, "enemigo");
+
+attachEnemyCellListeners();
 
 document.querySelectorAll(".enemigo").forEach((cell) => {
   cell.addEventListener("click", (event) => {
@@ -81,6 +98,16 @@ document.querySelectorAll(".enemigo").forEach((cell) => {
     const x = "ABCDEFGHIJ".indexOf(colChar) + 1;
     const y = parseInt(rowNum, 10);
     onEnemyCellClick(x, y);
+
+    // displayGameboards(
+    //   firstGame.player1.gameboard.board,
+    //   firstGame.player2.gameboard.board,
+    // );
+
+    // displayShips(
+    // firstGame.player1.gameboard.ships,
+    // firstGame.player2.gameboard.ships,
+    // );
   });
 
   // displayGameboards( // Por qué está pasando esto aquí?
@@ -88,6 +115,21 @@ document.querySelectorAll(".enemigo").forEach((cell) => {
   //   firstGame.player2.gameboard.board,
   // );
 });
+
+function attachEnemyCellListeners() {
+  document.querySelectorAll(".enemigo").forEach((cell) => {
+    cell.addEventListener("click", (event) => {
+      const id = cell.id;
+      const [, colChar, rowNum] = id.match(/enemigo-([A-J])(\d+)/);
+
+      const x = "ABCDEFGHIJ".indexOf(colChar) + 1;
+      const y = parseInt(rowNum, 10);
+      onEnemyCellClick(x, y);
+    });
+  });
+}
+
+attachEnemyCellListeners();
 
 // if (result && result.hasCollision) {
 //   highlightCollision(result);
