@@ -10,8 +10,20 @@
   font-style: normal;
 }
 
+header, footer {
+  background-color: red;
+
+  * {
+  margin-left: 1rem;
+}
+
+}
+
 body {
-  background-color: var(--black);
+  background-image: url("./assets/background.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   font-family: "trade_windsregular", cursive;
 }
 
@@ -24,6 +36,8 @@ h1 {
   min-height: 100vh;
   display: flex;
   justify-content: space-evenly;
+  padding: 50px;
+  gap: 50px;
 }
 
 .board {
@@ -75,14 +89,15 @@ footer {
 }
 
 /* Tablet (min-width: 768px) */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .board {
-    width: 350px;
-    height: 350px;
+    width: 500px;
+    height: 500px;
   }
 
   #app {
     flex-direction: column;
+    align-items: center;
   }
 }
 

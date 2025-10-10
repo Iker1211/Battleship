@@ -2,11 +2,7 @@ import "./reset.css";
 import "./styles.css";
 import Game from "./Game.js";
 import { randomizeShips } from "./Gameboard.js";
-import {
-  displayGameboards,
-  displayShips,
-  drawShots,
-} from "./DOMhandler.js";
+import { displayGameboards, displayShips, drawShots } from "./DOMhandler.js";
 
 const url = "./assets/audios/gunshot.mp3";
 const audioShot = new Audio(url);
@@ -21,20 +17,20 @@ randomizeShips(firstGame.player2.gameboard);
 function renderAll() {
   displayGameboards(
     firstGame.player1.gameboard.board,
-    firstGame.player2.gameboard.board
+    firstGame.player2.gameboard.board,
   );
   displayShips(
     firstGame.player1.gameboard.ships,
-    firstGame.player2.gameboard.ships
+    firstGame.player2.gameboard.ships,
   );
   drawShots(firstGame.player2.gameboard, "enemigo"); // Player shots
-  drawShots(firstGame.player1.gameboard, "amigo");   // Computer shots
+  drawShots(firstGame.player1.gameboard, "amigo"); // Computer shots
   attachEnemyCellListeners();
 }
 
 // --- Attach click listeners to enemy cells ---
 function attachEnemyCellListeners() {
-  document.querySelectorAll(".enemigo").forEach(cell => {
+  document.querySelectorAll(".enemigo").forEach((cell) => {
     cell.onclick = null; // Remove previous listeners
     cell.addEventListener("click", (event) => {
       if (currentTurn !== "player") return; // Only if it's player's turn
@@ -65,7 +61,8 @@ function checkGameOver() {
 function playerTurn(x, y) {
   firstGame.player2.gameboard.receiveAttack(
     firstGame.player2.gameboard.board,
-    x, y
+    x,
+    y,
   );
 
   console.log(firstGame.player2.gameboard.checkLoss());
@@ -74,7 +71,7 @@ function playerTurn(x, y) {
   audioShot.play();
   renderAll();
 
-if (checkGameOver()) return;
+  if (checkGameOver()) return;
 
   currentTurn = "computer";
   setTimeout(computerTurn, 700); // Computer shoots after delay
@@ -89,18 +86,19 @@ function computerTurn() {
   } while (
     firstGame.player1.gameboard.shots &&
     firstGame.player1.gameboard.shots.some(
-      shot => shot.col === x && shot.row === y
+      (shot) => shot.col === x && shot.row === y,
     )
   );
   firstGame.player1.gameboard.receiveAttack(
     firstGame.player1.gameboard.board,
-    x, y
+    x,
+    y,
   );
 
   audioShot.play();
   renderAll();
 
-if (checkGameOver()) return;  
+  if (checkGameOver()) return;
 
   currentTurn = "player";
 }

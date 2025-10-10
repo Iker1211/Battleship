@@ -15,7 +15,6 @@ export function displayShots() {
 }
 
 export function drawShots(gameboard = null, prefix = "enemigo") {
-
   if (!gameboard || !gameboard.shots) return;
   const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 

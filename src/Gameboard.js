@@ -85,7 +85,7 @@ export default class Gameboard {
       return false;
     }
 
-    this.shots.push({col: x, row: y});
+    this.shots.push({ col: x, row: y });
 
     this.ships.forEach((ship) => {
       if (typeof ship === "number") return;
@@ -162,7 +162,7 @@ export function randomizeShips(gameboard) {
         length,
         y,
         x,
-        orientation
+        orientation,
       );
       // Only count if placement was successful and no collision
       if (result === true) {
