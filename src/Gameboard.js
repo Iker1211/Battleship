@@ -134,11 +134,40 @@ export default class Gameboard {
   }
 }
 
-let board1 = new Gameboard();
+export function randomizeShips(gameboard) {
+  const shipConfigs = [
+    { count: 1, length: 4 },
+    { count: 2, length: 3 },
+    { count: 3, length: 2 },
+    { count: 4, length: 1 },
+  ];
 
-board1.placeShip(board1.board, 1, 2, 2, "horizontal");
-board1.placeShip(board1.board, 1, 1, 1, "horizontal");
-board1.placeShip(board1.board, 1, 1, 1, "horizontal");
-board1.placeShip(board1.board, 1, 1, 1, "horizontal");
+  const orientations = ["horizontal", "vertical"];
 
-board1.logShips();
+  shipConfigs.forEach(({ count, length }) => {
+    let placed = 0;
+    while (placed < count) {
+      const orientation = orientations[Math.floor(Math.random() * 2)];
+      let x, y;
+      if (orientation === "horizontal") {
+        x = Math.floor(Math.random() * (11 - length)) + 1;
+        y = Math.floor(Math.random() * 10) + 1;
+      } else {
+        x = Math.floor(Math.random() * 10) + 1;
+        y = Math.floor(Math.random() * (11 - length)) + 1;
+      }
+
+      const result = gameboard.placeShip(
+        gameboard.board,
+        length,
+        y,
+        x,
+        orientation
+      );
+      // Only count if placement was successful and no collision
+      if (result === true) {
+        placed++;
+      }
+    }
+  });
+}

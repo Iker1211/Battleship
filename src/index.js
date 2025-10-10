@@ -1,6 +1,7 @@
 import "./reset.css";
 import "./styles.css";
 import Game from "./Game.js";
+import { randomizeShips } from "./Gameboard.js";
 import {
   displayGameboards,
   displayShips,
@@ -13,23 +14,8 @@ const audioShot = new Audio(url);
 const firstGame = new Game("human", "computer");
 let currentTurn = "player"; // "player" or "computer"
 
-// --- Place ships for both players ---
-firstGame.player1.gameboard.placeShip(
-  firstGame.player1.gameboard.board,
-  1, 1, 1, "vertical"
-);
-firstGame.player1.gameboard.placeShip(
-  firstGame.player1.gameboard.board,
-  2, 4, 4, "horizontal"
-);
-firstGame.player1.gameboard.placeShip(
-  firstGame.player1.gameboard.board,
-  2, 3, 8, "vertical"
-);
-firstGame.player2.gameboard.placeShip(
-  firstGame.player2.gameboard.board,
-  1, 1, 1, "vertical"
-);
+randomizeShips(firstGame.player1.gameboard);
+randomizeShips(firstGame.player2.gameboard);
 
 // --- Main render function ---
 function renderAll() {
@@ -61,14 +47,35 @@ function attachEnemyCellListeners() {
   });
 }
 
+function checkGameOver() {
+  if (firstGame.player1.gameboard.lostGame) {
+    alert("¡La computadora gana!");
+    currentTurn = null;
+    return true;
+  }
+  if (firstGame.player2.gameboard.lostGame) {
+    alert("¡El jugador gana!");
+    currentTurn = null;
+    return true;
+  }
+  return false;
+}
+
 // --- Player's turn logic ---
 function playerTurn(x, y) {
   firstGame.player2.gameboard.receiveAttack(
     firstGame.player2.gameboard.board,
     x, y
   );
+
+  console.log(firstGame.player2.gameboard.checkLoss());
+  console.log(firstGame.player2.gameboard.lostGame);
+
   audioShot.play();
   renderAll();
+
+if (checkGameOver()) return;
+
   currentTurn = "computer";
   setTimeout(computerTurn, 700); // Computer shoots after delay
 }
@@ -89,8 +96,12 @@ function computerTurn() {
     firstGame.player1.gameboard.board,
     x, y
   );
+
   audioShot.play();
   renderAll();
+
+if (checkGameOver()) return;  
+
   currentTurn = "player";
 }
 
