@@ -4,138 +4,95 @@ import Game from "./Game.js";
 import {
   displayGameboards,
   displayShips,
-  highlightCollision,
-  displayShots,
   drawShots,
 } from "./DOMhandler.js";
 
-let url = "./assets/audios/gunshot.mp3";
+const url = "./assets/audios/gunshot.mp3";
+const audioShot = new Audio(url);
 
-let audioShot = new Audio(url);
+const firstGame = new Game("human", "computer");
+let currentTurn = "player"; // "player" or "computer"
 
-let firstGame = new Game("human", "computer");
+// --- Place ships for both players ---
+firstGame.player1.gameboard.placeShip(
+  firstGame.player1.gameboard.board,
+  1, 1, 1, "vertical"
+);
+firstGame.player1.gameboard.placeShip(
+  firstGame.player1.gameboard.board,
+  2, 4, 4, "horizontal"
+);
+firstGame.player1.gameboard.placeShip(
+  firstGame.player1.gameboard.board,
+  2, 3, 8, "vertical"
+);
+firstGame.player2.gameboard.placeShip(
+  firstGame.player2.gameboard.board,
+  1, 1, 1, "vertical"
+);
 
-function onEnemyCellClick(x, y) {
-  firstGame.player2.gameboard.receiveAttack(
-    firstGame.player2.gameboard.board,
-    x,
-    y,
-  );
-  console.log("party");
-  audioShot.play();
-
-    // Re-render boards, ships, and shots after attack
+// --- Main render function ---
+function renderAll() {
   displayGameboards(
     firstGame.player1.gameboard.board,
-    firstGame.player2.gameboard.board,
+    firstGame.player2.gameboard.board
   );
   displayShips(
     firstGame.player1.gameboard.ships,
-    firstGame.player2.gameboard.ships,
+    firstGame.player2.gameboard.ships
   );
-
-  drawShots(firstGame.player2.gameboard, "enemigo");
-
-  // Re-attach listeners after re-render
+  drawShots(firstGame.player2.gameboard, "enemigo"); // Player shots
+  drawShots(firstGame.player1.gameboard, "amigo");   // Computer shots
   attachEnemyCellListeners();
 }
 
-firstGame.player1.gameboard.placeShip(
-  firstGame.player1.gameboard.board,
-  1,
-  1,
-  1,
-  "vertical",
-);
-
-firstGame.player1.gameboard.placeShip(
-  firstGame.player1.gameboard.board,
-  2,
-  4,
-  4,
-  "horizontal",
-);
-
-firstGame.player1.gameboard.placeShip(
-  firstGame.player1.gameboard.board,
-  2,
-  3,
-  8,
-  "vertical",
-);
-
-firstGame.player2.gameboard.placeShip(
-  firstGame.player2.gameboard.board,
-  1,
-  1,
-  1,
-  "vertical",
-);
-
-displayGameboards(
-  firstGame.player1.gameboard.board,
-  firstGame.player2.gameboard.board,
-);
-
-displayShips(
-  firstGame.player1.gameboard.ships,
-  firstGame.player2.gameboard.ships,
-);
-
-firstGame.player1.gameboard.receiveAttack(firstGame.player1.gameboard, 1, 1);
-firstGame.player1.gameboard.receiveAttack(firstGame.player1.gameboard, 4, 4);
-firstGame.player1.gameboard.receiveAttack(firstGame.player1.gameboard, 5, 4);
-
-drawShots(firstGame.player2.gameboard, "enemigo");
-
-attachEnemyCellListeners();
-
-document.querySelectorAll(".enemigo").forEach((cell) => {
-  cell.addEventListener("click", (event) => {
-    const id = cell.id;
-    const [, colChar, rowNum] = id.match(/enemigo-([A-J])(\d+)/);
-
-    const x = "ABCDEFGHIJ".indexOf(colChar) + 1;
-    const y = parseInt(rowNum, 10);
-    onEnemyCellClick(x, y);
-
-    // displayGameboards(
-    //   firstGame.player1.gameboard.board,
-    //   firstGame.player2.gameboard.board,
-    // );
-
-    // displayShips(
-    // firstGame.player1.gameboard.ships,
-    // firstGame.player2.gameboard.ships,
-    // );
-  });
-
-  // displayGameboards( // Por qué está pasando esto aquí?
-  //   firstGame.player1.gameboard.board,
-  //   firstGame.player2.gameboard.board,
-  // );
-});
-
+// --- Attach click listeners to enemy cells ---
 function attachEnemyCellListeners() {
-  document.querySelectorAll(".enemigo").forEach((cell) => {
+  document.querySelectorAll(".enemigo").forEach(cell => {
+    cell.onclick = null; // Remove previous listeners
     cell.addEventListener("click", (event) => {
+      if (currentTurn !== "player") return; // Only if it's player's turn
       const id = cell.id;
       const [, colChar, rowNum] = id.match(/enemigo-([A-J])(\d+)/);
-
       const x = "ABCDEFGHIJ".indexOf(colChar) + 1;
       const y = parseInt(rowNum, 10);
-      onEnemyCellClick(x, y);
+      playerTurn(x, y);
     });
   });
 }
 
-attachEnemyCellListeners();
+// --- Player's turn logic ---
+function playerTurn(x, y) {
+  firstGame.player2.gameboard.receiveAttack(
+    firstGame.player2.gameboard.board,
+    x, y
+  );
+  audioShot.play();
+  renderAll();
+  currentTurn = "computer";
+  setTimeout(computerTurn, 700); // Computer shoots after delay
+}
 
-// if (result && result.hasCollision) {
-//   highlightCollision(result);
-//   console.log("hola");
-// }
+// --- Computer's turn logic ---
+function computerTurn() {
+  let x, y;
+  do {
+    x = Math.floor(Math.random() * 10) + 1;
+    y = Math.floor(Math.random() * 10) + 1;
+  } while (
+    firstGame.player1.gameboard.shots &&
+    firstGame.player1.gameboard.shots.some(
+      shot => shot.col === x && shot.row === y
+    )
+  );
+  firstGame.player1.gameboard.receiveAttack(
+    firstGame.player1.gameboard.board,
+    x, y
+  );
+  audioShot.play();
+  renderAll();
+  currentTurn = "player";
+}
 
-// Por cada jugador un grid
-// La lógica del juego debería estar separada del control del DOM,
-// en módulos diferentes?
+// --- Initial render ---
+renderAll();

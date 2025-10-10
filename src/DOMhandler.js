@@ -19,17 +19,6 @@ export function drawShots(gameboard = null, prefix = "enemigo") {
   if (!gameboard || !gameboard.shots) return;
   const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
-  const boards = document.getElementsByClassName("board");
-
-  // Array.from(boards).forEach((board) => {
-  //   board.addEventListener("click", (event) => {
-  //     console.log("Board clicked!", event.target);
-  //     let something = document.createElement("div");
-  //     something.classList.add("shot");
-  //     event.target.appendChild(something);
-  //   });
-  // });
-
   gameboard.shots.forEach(({ col, row }) => {
     const cellId = `${prefix}-${alphabet[col - 1]}${row}`;
     const cell = document.getElementById(cellId);
